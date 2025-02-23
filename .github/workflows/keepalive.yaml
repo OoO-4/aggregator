@@ -1,0 +1,22 @@
+name: Keeoalive
+on:
+    workflow_dispatch:
+    schedule:
+      - cron: "0 0 * * *"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto commit 
+        run: |
+          mkdir -p dummy
+          cd dummy
+          git init
+          git checkout -b dummy
+          git config --local user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --local user.name 'github-actions[bot]'
+          touch nothing
+          git add .
+          git commit -m "Upload"
+          git remote add origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push -u -f origin dummy
